@@ -22,12 +22,12 @@ plugins {
 
 android {
     namespace = "dev.evowizz.cosmose"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "dev.evowizz.cosmose"
         minSdk = 31
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -41,10 +41,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_21.toString()
         freeCompilerArgs += listOf(
@@ -53,9 +55,11 @@ android {
             "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api"
         )
     }
+
     buildFeatures {
         compose = true
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
