@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Dylan Roussel
+ * Copyright 2024 Dylan Roussel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package dev.evowizz.cosmose.model
 
 import androidx.compose.runtime.Composable
+import dev.evowizz.cosmose.demos.heyhey.HeyHeyDemo
 import dev.evowizz.cosmose.demos.pingpong.PingPongDemo
 import dev.evowizz.cosmose.demos.template.TemplateDemo
 
@@ -28,6 +29,12 @@ data class Demo(
 
 private var nextId: Int = 1
 private fun nextId(): Int = nextId.also { nextId += 1 }
+
+private val HeyHey = Demo(
+    id = nextId(),
+    name = "Hey Hey",
+    content = { HeyHeyDemo() },
+)
 
 private val PingPong = Demo(
     id = nextId(),
@@ -42,6 +49,7 @@ private val Template = Demo(
 )
 
 val Demos = listOf(
+    HeyHey,
     PingPong,
     Template,
 )
