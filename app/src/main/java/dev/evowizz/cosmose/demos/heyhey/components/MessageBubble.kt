@@ -59,19 +59,22 @@ fun MessageList(
         LazyColumn(
             modifier = modifier,
             contentPadding = PaddingValues(bottom = 16.dp),
+            reverseLayout = true,
             state = state
         ) {
+            val lastIndex = messages.size - 1
             itemsIndexed(messages) { index, message ->
                 val isSelf = message.isSelf
-                val nextIsSelf = index != messages.size - 1 && messages[index + 1].isSelf == isSelf
-                val previousIsSelf = index != 0 && messages[index - 1].isSelf == isSelf
+
+                val nextIsSelf = index != 0 && messages[index - 1].isSelf == isSelf
+                val previousIsSelf = index != lastIndex && messages[index + 1].isSelf == isSelf
 
                 // True if the current message is the first of a group of messages from the same sender
                 // or is the first message in the whole list
-                val isAtTop = index == 0 || (!previousIsSelf || nextIsSelf)
+                val isAtTop = index == lastIndex || (!previousIsSelf || nextIsSelf)
                 // isAtBottom means that the current message is the last of a group of messages from the same sender
                 // unless it is the last message in the whole list
-                val isAtBottom = index != 0 && previousIsSelf
+                val isAtBottom = index != lastIndex && previousIsSelf
 
                 val spacerHeight = if (nextIsSelf) 2.dp else 8.dp
                 Box(
@@ -80,13 +83,14 @@ fun MessageList(
                 ) {
                     MessageBubble(
                         modifier = Modifier
-                            .padding(bottom = if (index == messages.size - 1) 0.dp else spacerHeight)
+                            .padding(bottom = if (index == 0) 0.dp else spacerHeight)
                             .widthIn(max = 280.dp)
                             .sharedBounds(
                                 boundsTransform = { _, _ -> spring(stiffness = StiffnessLow) },
-                                sharedContentState = rememberSharedContentState(index),
+                                sharedContentState = rememberSharedContentState(message.id),
                                 animatedVisibilityScope = animatedVisibilityScope,
-                                resizeMode = ResizeMode.RemeasureToBounds
+                                resizeMode = ResizeMode.RemeasureToBounds,
+                                zIndexInOverlay = 1f,
                             ),
                         isSelf = isSelf,
                         isAtTop = isAtTop,

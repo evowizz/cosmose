@@ -17,12 +17,42 @@
 package dev.evowizz.cosmose.demos.heyhey.data
 
 import dev.evowizz.cosmose.demos.heyhey.model.MessageEntity
+import dev.evowizz.cosmose.utils.Random
+import java.util.UUID
 
 val InitialMessages = listOf(
-    MessageEntity(isSelf = false, content = "Hey there!"),
-    MessageEntity(isSelf = true, content = "Hey Hey!"),
-    MessageEntity(isSelf = false, content = "What's the difference between a cat and a comma?"),
-    MessageEntity(isSelf = true, content = "I don't know"),
-    MessageEntity(isSelf = true, content = "what"),
-    MessageEntity(isSelf = false, content = "A cat has claws at the end of paws; A comma is a pause at the end of a clause."),
+    createInitialMessage(
+        isSelf = false,
+        content = "A cat has claws at the end of paws; A comma is a pause at the end of a clause.",
+    ),
+    createInitialMessage(
+        isSelf = true,
+        content = "what",
+    ),
+    createInitialMessage(
+        isSelf = true,
+        content = "I don't know",
+    ),
+    createInitialMessage(
+        isSelf = false,
+        content = "What's the difference between a cat and a comma?",
+    ),
+    createInitialMessage(
+        isSelf = true,
+        content = "Hey Hey!",
+    ),
+    createInitialMessage(
+        isSelf = false,
+        content = "Hey there!",
+    ),
+)
+
+
+private fun createInitialMessage(
+    isSelf: Boolean,
+    content: String,
+) = MessageEntity(
+    id = Random.uuid(),
+    isSelf = isSelf,
+    content = content
 )

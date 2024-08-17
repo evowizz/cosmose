@@ -74,12 +74,14 @@ import dev.evowizz.cosmose.demos.heyhey.components.MessageList
 import dev.evowizz.cosmose.demos.heyhey.data.InitialMessages
 import dev.evowizz.cosmose.demos.heyhey.model.MessageEntity
 import dev.evowizz.cosmose.ui.theme.CosmoseTheme
+import dev.evowizz.cosmose.utils.Random
 
 @Composable
 fun HeyHeyDemo() {
-    val messageList = remember { InitialMessages.toMutableStateList() }
+    val messages = remember { InitialMessages.toMutableStateList() }
     var isSending by remember { mutableStateOf(false) }
     var value by remember { mutableStateOf("") }
+    var currentId by remember { mutableStateOf(Random.uuid()) }
 
     SharedTransitionLayout {
         AnimatedContent(
@@ -93,7 +95,7 @@ fun HeyHeyDemo() {
                 topBar = {
                     TopAppBar(
                         modifier = Modifier
-                            .renderInSharedTransitionScopeOverlay(zIndexInOverlay = 1f)
+                            .renderInSharedTransitionScopeOverlay(zIndexInOverlay = 10f)
                             .padding(horizontal = 8.dp),
                         title = { Text("Jane Doe") },
                         // We cannot use Color.Transparent, since the TopAppBar is visible during
@@ -121,25 +123,34 @@ fun HeyHeyDemo() {
                     ComposerContainer(
                         sharedTransitionScope = this@SharedTransitionLayout,
                         animatedVisibilityScope = this@AnimatedContent,
-                        currentIndex = messageList.size,
+                        id = currentId,
                         value = value,
                         onValueChange = { value = it },
                         isSending = sending,
                         onSend = {
                             isSending = true
-                            messageList.add(MessageEntity(isSelf = true, content = value))
+                            messages.add(
+                                index = 0,
+                                element = MessageEntity(
+                                    id = currentId,
+                                    isSelf = true,
+                                    content = value,
+                                )
+                            )
                         }
                     )
                 }
             ) {
                 val listState: LazyListState = rememberLazyListState()
 
-                LaunchedEffect(messageList.size) {
+                LaunchedEffect(messages.size) {
                     // When the size of messageList changes, it means we have a new message.
-                    // So, we reset isSending and value, and we scroll to the last item.
+                    // So, we reset isSending and value, we generate a new id
+                    // and we scroll to the last item.
                     isSending = false
+                    currentId = Random.uuid()
                     value = ""
-                    listState.scrollToItem(messageList.size - 1)
+                    listState.scrollToItem(0)
                 }
 
                 Surface(
@@ -154,7 +165,7 @@ fun HeyHeyDemo() {
                         MessageList(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             state = listState,
-                            messages = messageList,
+                            messages = messages,
                             sharedTransitionScope = this@SharedTransitionLayout,
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -170,7 +181,7 @@ fun ComposerContainer(
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    currentIndex: Int,
+    id: String,
     value: String = "",
     onValueChange: (String) -> Unit,
     isSending: Boolean,
@@ -212,7 +223,7 @@ fun ComposerContainer(
                         Modifier.sharedBounds(
                             resizeMode = ResizeMode.RemeasureToBounds,
                             placeHolderSize = PlaceHolderSize.animatedSize,
-                            sharedContentState = rememberSharedContentState(currentIndex),
+                            sharedContentState = rememberSharedContentState(id),
                             animatedVisibilityScope = animatedVisibilityScope,
                         ),
                         value = value,

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package dev.evowizz.cosmose.demos.heyhey.model
+package dev.evowizz.cosmose.utils
 
-data class MessageEntity(
-    val id: String,
-    val isSelf: Boolean,
-    val content: String,
-)
+import java.util.UUID
+
+object Random {
+
+    fun uuid(): String = UUID.randomUUID().toString()
+}
