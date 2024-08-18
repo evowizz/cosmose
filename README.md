@@ -6,7 +6,10 @@ This simple app is meant to contain various demos of things built with Jetpack C
 
 **Pull requests are welcome!**
 
-## How to run
+## Download
+You can download the app from the [releases page](https://github.com/evowizz/cosmose/releases), or build it yourself.
+
+## Building
 If you're here, you probably already know how to run a Jetpack Compose app. If not, here's a quick guide:
 
 1. Clone the repo
@@ -15,7 +18,7 @@ If you're here, you probably already know how to run a Jetpack Compose app. If n
 
 ## License
 ```
-Copyright 2023 Dylan Roussel
+Copyright 2024 Dylan Roussel
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
