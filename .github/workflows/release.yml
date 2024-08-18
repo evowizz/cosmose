@@ -2,8 +2,9 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
+
 
 concurrency:
   group: build-${{ github.ref }}
@@ -23,6 +24,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Current Ref
+        run: |
+          echo "Current Ref: ${{ github.ref }}"
 
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v4
@@ -47,6 +52,7 @@ jobs:
         with:
           artifacts: app/build/outputs/apk/release/app-release.apk
           artifactContentType: application/vnd.android.package-archive
+          tag: ${{ github.ref_name }}
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           generateReleaseNotes: true
           draft: true

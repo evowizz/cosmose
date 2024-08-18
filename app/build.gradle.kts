@@ -28,7 +28,7 @@ android {
         applicationId = "dev.evowizz.cosmose"
         minSdk = 31
         targetSdk = 35
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
     }
 
