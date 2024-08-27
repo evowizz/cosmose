@@ -18,6 +18,7 @@ package dev.evowizz.cosmose.model
 
 import androidx.compose.runtime.Composable
 import dev.evowizz.cosmose.demos.heyhey.HeyHeyDemo
+import dev.evowizz.cosmose.demos.hideandsheet.HideAndSheetDemo
 import dev.evowizz.cosmose.demos.pingpong.PingPongDemo
 import dev.evowizz.cosmose.demos.template.TemplateDemo
 
@@ -29,6 +30,12 @@ data class Demo(
 
 private var nextId: Int = 1
 private fun nextId(): Int = nextId.also { nextId += 1 }
+
+private val HideAndSheet = Demo(
+    id = nextId(),
+    name = "Hide & Sheet",
+    content = { HideAndSheetDemo() },
+)
 
 private val HeyHey = Demo(
     id = nextId(),
@@ -49,6 +56,7 @@ private val Template = Demo(
 )
 
 val Demos = listOf(
+    HideAndSheet,
     HeyHey,
     PingPong,
     Template,
